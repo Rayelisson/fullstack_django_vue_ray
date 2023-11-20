@@ -3,7 +3,7 @@
       <div class="max-w-7xl mx-auto">
           <div class="flex items-center justify-between">
               <div class="menu-left">
-                  <a href="#" class="text-xl">Wey</a>
+                  <a href="#" class="text-xl">Ray Social</a>
               </div>
 
               <div class="menu-center flex space-x-12">

@@ -1,3 +1,5 @@
+
+import { RouterLink } from 'vue-router';
 <template>
      <div class="max-w-7xl mx-auto grid grid-cols-2 gap-4">
         <div class="main-left">
@@ -13,7 +15,7 @@
               </p>
 
               <p class="font-bold">
-                Don't have an account? <a href="#" class="underline"> Click here </a>to create one
+                Don't have an account? <RouterLink :to="{'name': 'login'}"  class="underline"> Click here </RouterLink>to login
               </p>
             </div>
         </div>
