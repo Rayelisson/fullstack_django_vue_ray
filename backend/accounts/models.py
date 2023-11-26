@@ -1,9 +1,9 @@
 import uuid
 
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
+from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin,
+                                        UserManager)
 from django.db import models
 from django.utils import timezone
-
 
 
 class CustomUserManager(UserManager):
@@ -47,8 +47,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
-
-
-
-
-
