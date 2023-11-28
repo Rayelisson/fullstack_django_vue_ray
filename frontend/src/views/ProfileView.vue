@@ -5,18 +5,18 @@
         <img src="https://i.pravatar.cc/300?img=70" class="mb-6 rounded-full" />
 
         <p>
-          <strong>{{ userStore.user.name }}</strong>
+          <strong>{{ user.name }}</strong>
         </p>
 
         <div class="mt-6 flex space-x-8 justify-around">
           <RouterLink
-            :to="{ name: 'friends', params: { id: user.id } }"
+            :to="{ name: 'friends', params: { id: userStore.user.id } }"
             class="text-xs text-gray-500"
             >{{ user.friends_count }} friends</RouterLink
           >
           <p class="text-xs text-gray-500">120 posts</p>
         </div>
-        <div class="mt-6">
+        <div class="mt-6" v-if="userStore.user.id === user.id"></div>
           <button
             class="inline-block py-4 px-3 bg-purple-600 text-xs text-white rounded-lg"
             @click="sendFriendshipRequest"
