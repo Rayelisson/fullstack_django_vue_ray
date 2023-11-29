@@ -1,5 +1,5 @@
-from accounts.models import User
-from accounts.serializers import UserSerializer
+from account.models import User
+from account.serializers import UserSerializer
 from django.http import JsonResponse
 from post.models import Post
 from post.serializers import PostSerializer

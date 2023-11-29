@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.template import RequestContext
 from rest_framework.decorators import (api_view, authentication_classes,
                                        permission_classes)
 
@@ -46,15 +45,9 @@ def friends(request, pk):
     user = User.objects.get(pk=pk)
     requests = []
 
-    u = request.user
-    u.friends_count = 1
-    u.save()
-
-    user.friends_count = 1
-    user.save()
-
     if user == request.user:
-        requests = FriendshipRequest.objects.filter(created_for=request.user)
+        requests = FriendshipRequest.objects.filter(
+            created_for=request.user, status=FriendshipRequest.SENT)
         requests = FriendshipRequestSerializer(requests, many=True)
         requests = requests.data
 
@@ -63,7 +56,7 @@ def friends(request, pk):
     return JsonResponse({
         'user': UserSerializer(user).data,
         'friends': UserSerializer(friends, many=True).data,
-        'requests': requests,
+        'requests': requests
     }, safe=False)
 
 

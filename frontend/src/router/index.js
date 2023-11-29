@@ -18,14 +18,14 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/signup',
-      name: 'signup',
-      component: SignupView
-    },
-    {
       path: '/feed',
       name: 'feed',
       component: FeedView
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: SignupView
     },
     {
       path: '/login',
@@ -33,24 +33,24 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/messagem',
-      name: 'messagem',
+      path: '/messages',
+      name: 'messages',
       component: MessagesView
     },
     {
-      path: '/searchview',
-      name: 'searchview',
+      path: '/search',
+      name: 'search',
       component: SearchView
-    },
-    {
-      path: '/profile/:id/friends',
-      name: 'friends',
-      component: FriendsView
     },
     {
       path: '/profile/:id',
       name: 'profile',
       component: ProfileView
+    },
+    {
+      path: '/profile/:id/friends',
+      name: 'friends',
+      component: FriendsView
     },  
     {
       path: '/about',

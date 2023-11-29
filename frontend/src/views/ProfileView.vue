@@ -10,71 +10,66 @@
 
         <div class="mt-6 flex space-x-8 justify-around">
           <RouterLink
-            :to="{ name: 'friends', params: { id: userStore.user.id } }"
+            :to="{ name: 'friends', params: { id: user.id } }"
             class="text-xs text-gray-500"
             >{{ user.friends_count }} friends</RouterLink
           >
           <p class="text-xs text-gray-500">120 posts</p>
         </div>
-        <div class="mt-6" v-if="userStore.user.id === user.id"></div>
-        <button
-          class="inline-block py-4 px-3 bg-purple-600 text-xs text-white rounded-lg"
-          @click="sendFriendshipRequest"
-          v-if="userStore.user.id !== user.id"
-        >
-          Send friendship request
-        </button>
-
-        <button
-          class="inline-block py-4 px-3 bg-red-600 text-xs text-white rounded-lg"
-          @click="logout"
-          v-if="userStore.user.id === user.id"
-        >
-          Log out
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="main-center col-span-2 space-y-4">
-    <div
-      class="bg-white border border-gray-200 rounded-lg"
-      v-if="userStore.user.id === user.id"
-    >
-      <form v-on:submit.prevent="submitForm" method="post">
-        <div class="p-4">
-          <textarea
-            v-model="body"
-            class="p-4 w-full bg-gray-100 rounded-lg"
-            placeholder="What are you thinking about?"
-          ></textarea>
-        </div>
-
-        <div class="p-4 border-t border-gray-100 flex justify-between">
-          <a href="#" class="inline-block py-4 px-6 bg-gray-600 text-white rounded-lg"
-            >Attach image</a
+        <div class="mt-6">
+          <button
+            class="inline-block py-4 px-3 bg-purple-600 text-xs text-white rounded-lg"
+            @click="sendFriendshipRequest"
+            v-if="userStore.user.id !== user.id"
           >
+            Send friendship request
+          </button>
 
-          <button class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg">
-            Post
+          <button
+            class="inline-block py-4 px-3 bg-red-600 text-xs text-white rounded-lg"
+            @click="logout"
+            v-if="userStore.user.id === user.id"
+          >
+            Log out
           </button>
         </div>
-      </form>
+      </div>
     </div>
-
-    <div
-      class="p-4 bg-white border border-gray-200 rounded-lg"
-      v-for="post in posts"
-      v-bind:key="post.id"
-    >
-      <FeedItem v-bind:post="post" />
+    <div class="main-center col-span-2 space-y-4">
+      <div
+        class="bg-white border border-gray-200 rounded-lg"
+        v-if="userStore.user.id === user.id"
+      >
+        <form v-on:submit.prevent="submitForm" method="post">
+          <div class="p-4">
+            <textarea
+              v-model="body"
+              class="p-4 w-full bg-gray-100 rounded-lg"
+              placeholder="What are you thinking about?"
+            ></textarea>
+          </div>
+          <div class="p-4 border-t border-gray-100 flex justify-between">
+            <a href="#" class="inline-block py-4 px-6 bg-gray-600 text-white rounded-lg"
+              >Attach image</a
+            >
+            <button class="inline-block py-4 px-6 bg-purple-600 text-white rounded-lg">
+              Post
+            </button>
+          </div>
+        </form>
+      </div>
+      <div
+        class="p-4 bg-white border border-gray-200 rounded-lg"
+        v-for="post in posts"
+        v-bind:key="post.id"
+      >
+        <FeedItem v-bind:post="post" />
+      </div>
     </div>
-  </div>
-
-  <div class="main-right col-span-1 space-y-4">
-    <PeopleYouMayKnow />
-
-    <Trends />
+    <div class="main-right col-span-1 space-y-4">
+      <PeopleYouMayKnow />
+      <Trends />
+    </div>
   </div>
 </template>
 
