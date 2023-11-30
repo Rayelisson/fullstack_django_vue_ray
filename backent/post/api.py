@@ -5,8 +5,9 @@ from rest_framework.decorators import (api_view, authentication_classes,
                                        permission_classes)
 
 from .forms import PostForm
-from .models import Like, Post
-from .serializers import PostDetailSerializer, PostSerializer
+from .models import Comment, Like, Post
+from .serializers import (CommentSerializer, PostDetailSerializer,
+                          PostSerializer)
 
 
 @api_view(['GET'])
@@ -76,3 +77,18 @@ def post_like(request, pk):
         return JsonResponse({'message': 'like created'})
     else:
         return JsonResponse({'message': 'post already liked'})
+
+
+@api_view(['POST'])
+def post_create_comment(request, pk):
+    comment = Comment.objects.create(
+        body=request.data.get('body'), created_by=request.user)
+
+    post = Post.objects.get(pk=pk)
+    post.comments.add(comment)
+    post.comments_count = post.comments_count + 1
+    post.save()
+
+    serializer = CommentSerializer(comment)
+
+    return JsonResponse(serializer.data, safe=False)
