@@ -7,7 +7,7 @@
         <p>
           <strong>{{ user.name }}</strong>
         </p>
-        <div class="mt-6 flex space-x-8 justify-around" v-if="user">
+        <div class="mt-6 flex space-x-8 justify-around" v-if="user.id">
           <RouterLink
             :to="{ name: 'friends', params: { id: user.id } }"
             class="text-xs text-gray-500"
@@ -31,6 +31,14 @@
           >
             Send direct message
           </button>
+
+          <RouterLink
+            class="inline-block mr-2 py-4 px-3 bg-purple-600 text-xs text-white rounded-lg"
+            to="/profile/edit"
+            v-if="userStore.user.id === user.id"
+          >
+            Edit profile
+          </RouterLink>
 
           <button
             class="inline-block py-4 px-3 bg-red-600 text-xs text-white rounded-lg"
