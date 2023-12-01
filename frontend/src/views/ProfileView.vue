@@ -7,7 +7,7 @@
         <p>
           <strong>{{ user.name }}</strong>
         </p>
-        <div class="mt-6 flex space-x-8 justify-around">
+        <div class="mt-6 flex space-x-8 justify-around" v-if="user">
           <RouterLink
             :to="{ name: 'friends', params: { id: user.id } }"
             class="text-xs text-gray-500"
@@ -106,7 +106,7 @@ export default {
     return {
       posts: [],
       user: {
-        id: null,
+        id: "",
       },
       body: "",
     };
