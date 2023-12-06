@@ -13,7 +13,7 @@
             class="text-xs text-gray-500"
             >{{ user.friends_count }} friends</RouterLink
           >
-          <p class="text-xs text-gray-500">120 posts</p>
+          <p class="text-xs text-gray-500">{{ user.posts_count }} posts</p>
         </div>
         <div class="mt-6">
           <button
@@ -185,6 +185,7 @@ export default {
           console.log("data", response.data);
           this.posts.unshift(response.data);
           this.body = "";
+          this.user.posts_count += 1;
         })
         .catch((error) => {
           console.log("error", error);

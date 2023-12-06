@@ -1,3 +1,5 @@
+from django.contrib.auth.forms import PasswordChangeForm
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from rest_framework.decorators import (api_view, authentication_classes,
                                        permission_classes)
@@ -32,13 +34,27 @@ def signup(request):
     })
 
     if form.is_valid():
-        form.save()
+        user = form.save()
+        user.is_active = False
+        user.save()
+
+        url = f'http://127.0.0.1:8000/activateemail/?email={user.email}&id={user.id}'
+
+        send_mail(
+            "Please verify your email",
+            f"The url for activating your account is: {url}",
+            "noreply@wey.com",
+            [user.email],
+            fail_silently=False,
+        )
 
         # Send verification email later!
     else:
-        message = 'error'
+        message = form.errors.as_json()
 
-    return JsonResponse({'message': message})
+    print(message)
+
+    return JsonResponse({'message': message}, safe=False)
 
 
 @api_view(['GET'])
@@ -77,7 +93,23 @@ def editprofile(request):
         if form.is_valid():
             form.save()
 
-        return JsonResponse({'message': 'information updated'})
+        serializer = UserSerializer(user)
+
+        return JsonResponse({'message': 'information updated', 'user': serializer.data})
+
+
+@api_view(['POST'])
+def editpassword(request):
+    user = request.user
+
+    form = PasswordChangeForm(data=request.POST, user=user)
+
+    if form.is_valid():
+        form.save()
+
+        return JsonResponse({'message': 'success'})
+    else:
+        return JsonResponse({'message': form.errors.as_json()}, safe=False)
 
 
 @api_view(['POST'])
