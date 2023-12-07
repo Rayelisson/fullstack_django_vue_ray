@@ -17,7 +17,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'body', 'likes_count',
-                  'created_by', 'created_at_formatted',)
+                  'created_by', 'created_at_formatted', 'attachments')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -31,11 +31,12 @@ class CommentSerializer(serializers.ModelSerializer):
 class PostDetailSerializer(serializers.ModelSerializer):
     created_by = UserSerializer(read_only=True)
     comments = CommentSerializer(read_only=True, many=True)
+    attachments = PostAttachmentSerializer(read_only=True, many=True)
 
     class Meta:
         model = Post
         fields = ('id', 'body', 'likes_count', 'comments_count',
-                  'created_by', 'created_at_formatted', 'comments',)
+                  'created_by', 'created_at_formatted', 'comments', 'attachments')
 
 
 class TrendSerializer(serializers.ModelSerializer):

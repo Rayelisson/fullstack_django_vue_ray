@@ -1,10 +1,11 @@
-from account.models import User
+from account.models import FriendshipRequest, User
 from account.serializers import UserSerializer
 from django.http import JsonResponse
+from notification.utils import create_notification
 from rest_framework.decorators import (api_view, authentication_classes,
                                        permission_classes)
 
-from .forms import PostForm
+from .forms import AttachmentForm, PostForm
 from .models import Comment, Like, Post, Trend
 from .serializers import (CommentSerializer, PostDetailSerializer,
                           PostSerializer, TrendSerializer)
@@ -45,9 +46,23 @@ def post_list_profile(request, id):
     posts_serializer = PostSerializer(posts, many=True)
     user_serializer = UserSerializer(user)
 
+    can_send_friendship_request = True
+
+    if request.user in user.friends.all():
+        can_send_friendship_request = False
+
+    check1 = FriendshipRequest.objects.filter(
+        created_for=request.user).filter(created_by=user)
+    check2 = FriendshipRequest.objects.filter(
+        created_for=user).filter(created_by=request.user)
+
+    if check1 or check2:
+        can_send_friendship_request = False
+
     return JsonResponse({
         'posts': posts_serializer.data,
-        'user': user_serializer.data
+        'user': user_serializer.data,
+        'can_send_friendship_request': can_send_friendship_request
     }, safe=False)
 
 
@@ -83,6 +98,9 @@ def post_like(request, pk):
         post.likes.add(like)
         post.save()
 
+        notification = create_notification(
+            request, 'post_like', post_id=post.id)
+
         return JsonResponse({'message': 'like created'})
     else:
         return JsonResponse({'message': 'post already liked'})
@@ -97,6 +115,9 @@ def post_create_comment(request, pk):
     post.comments.add(comment)
     post.comments_count = post.comments_count + 1
     post.save()
+
+    notification = create_notification(
+        request, 'post_comment', post_id=post.id)
 
     serializer = CommentSerializer(comment)
 

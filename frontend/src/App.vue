@@ -56,7 +56,7 @@
             </svg>
           </a>
 
-          <a href="#">
+          <RouterLink to="/notifications">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -71,7 +71,7 @@
                 d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
               ></path>
             </svg>
-          </a>
+          </RouterLink>
           <RouterLink to="/search">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@
         </div>
 
         <div class="menu-right">
-          <template v-if="userStore.user.isAuthenticated">
+          <template v-if="userStore.user.isAuthenticated && userStore.user.id">
             <RouterLink :to="{ name: 'profile', params: { id: userStore.user.id } }">
               <img src="https://i.pravatar.cc/40?img=70" class="rounded-full" />
             </RouterLink>
